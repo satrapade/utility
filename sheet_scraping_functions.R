@@ -163,9 +163,9 @@ get_year_sheet_folders<-function(
   dirs<-list.dirs(location)
   month_folders<-gsub(paste0("^",location,"/"),"",setdiff(dirs,location))
   month_folders
-},location="eq_ptf_sheet_functions.R")
+}
 
-make_sheet_name<-structure(function(
+make_sheet_name<-function(
  date="2016-06-29"
 ){
   month_templates=data.table(
@@ -301,7 +301,7 @@ get_sheet_position_range<-structure(function(
 
 
 # 
-get_sheet_unwind_range<-structure(function(
+get_sheet_unwind_range<-function(
   date="2017-04-18",
   fn=make_sheet_name(date),
   file_type=determine_excel_filetype(fn),
@@ -334,10 +334,9 @@ get_sheet_unwind_range<-structure(function(
   attributes(r2)$filetype<-file_type
   attributes(r2)$AUM<-AUM
   r2
-},location="eq_ptf_sheet_functions.R")
-
+}
 #
-get_sheet_positions<-structure(function(
+get_sheet_positions<-function(
   date="2017-04-18",
   fn=make_sheet_name(date),
   file_type=determine_excel_filetype(fn),
@@ -374,8 +373,7 @@ get_sheet_positions<-structure(function(
   attributes(res0)$filetype<-attributes(r2)$filetype
   attributes(res0)$cellrange<-r2
   res0
-},version="1.0",location="eq_ptf_sheet_functions.R")
-
+}
 
 # 
 # digest calculation
