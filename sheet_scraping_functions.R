@@ -30,7 +30,7 @@ make_date_range<-function(
   fmt="%Y-%m-%d"
   date_seq<-seq(from=as.Date(start,format=fmt)-leading_days,to=as.Date(end,format=fmt)+trailing_days,by=1)
   as.character(date_seq,format=fmt)
-},location="eq_ptf_sheet_functions.R")
+}
 
 # pattern-matched ticker classification
 ticker_class<-structure(function(x){
