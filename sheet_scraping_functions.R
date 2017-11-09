@@ -30,6 +30,7 @@ make_date_range<-function(
   as.character(date_seq,format=fmt)
 }
 
+
 # pattern-matched ticker classification
 ticker_class<-function(x){
   
