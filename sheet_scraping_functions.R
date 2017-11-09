@@ -2,24 +2,22 @@ require(stringi)
 require(readxl)
 
 #
-scrub<-structure(function(x,default=0){
+scrub<-function(x,default=0){
   if(length(x)==0)return(default)
   x[which(!is.finite(x))]<-default
   x
-},location="eq_ptf_sheet_functions.R")
+}
 
 #
-nz<-structure(function(x,tol=1e-12){
+nz<-function(x,tol=1e-12){
   if(all(abs(x)<tol))return(0)
   x[abs(x)>tol]
-},location="eq_ptf_sheet_functions.R")
-
+}
 #
-replace_zero_with_last<-structure(function(x,a=x!=0,tol=1e-10){
+replace_zero_with_last<-function(x,a=x!=0,tol=1e-10){
   if(all(abs(x)<tol))return(x)
   x[which(a)[c(1,1:sum(a))][cumsum(a)+1]]
-},location="eq_ptf_sheet_functions.R")
-
+}
 #
 make_date_range<-function(
   start="2017-06-01",
@@ -33,7 +31,7 @@ make_date_range<-function(
 }
 
 # pattern-matched ticker classification
-ticker_class<-structure(function(x){
+ticker_class<-function(x){
   
   x_trim<-stri_trim(x)
   x_upper<-toupper(x_trim)
