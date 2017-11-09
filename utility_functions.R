@@ -89,10 +89,10 @@ force2grid<-function(
   gy<-as.vector(row(m))
   dfx<-rescale(df$x,range(gx)) #bin(df$x,max(gx))
   dfy<-rescale(df$y,range(gy)) #bin(df$y,max(gy))
-  mx<-matrix(dfx,ncol=1)[,rep(1,length(gx))]
-  my<-matrix(dfy,ncol=1)[,rep(1,length(gx))]
-  gridx<-matrix(gx,nrow=1)[rep(1,length(dfx)),]
-  gridy<-matrix(gy,nrow=1)[rep(1,length(dfy)),]
+  mx<-matrix(dfx,ncol=1)[,rep(1,length(gx)),drop=FALSE]
+  my<-matrix(dfy,ncol=1)[,rep(1,length(gx)),drop=FALSE]
+  gridx<-matrix(gx,nrow=1)[rep(1,length(dfx)),,drop=FALSE]
+  gridy<-matrix(gy,nrow=1)[rep(1,length(dfy)),,drop=FALSE]
   dx<-(mx-gridx)^2
   dy<-(my-gridy)^2
   d<-dx+dy
@@ -116,6 +116,27 @@ safe_beta<-function(strat,factor){
   if(any(c(sd(strat),sd(factor))==0))return(0)
   cov(strat,factor)/var(factor)
 }
+
+# fast exponential moving average
+calc_ama<-function(x,n){
+  x0<-c(sum(x[1:n]),x[(n+1):length(x)])/n
+  res<-filter(x0,(n-1)/n,method="recursive",sides=1)
+  as.numeric(res)
+}
+
+# fast rsi
+rsi<-function(x,n){
+  dimnames(x)<-NULL
+  abs_x<-abs(x)
+  xup<-(abs_x+x)/2 # same as pmax(x,0) but faster, no dimnames
+  xdn<-(abs_x-x)/2 # same as pmax(-x,0) but faster
+  up<-apply(xup,2,calc_ama,n)
+  dn<-apply(xdn,2,calc_ama,n)
+  rsi<-100-100/(1+up/dn)
+  rsi[which(!is.finite(rsi),arr.ind=TRUE)]<-100
+  rsi
+}
+
 
 vol_pa<-function(x,exclude_zero=(x!=0), holidays = holidayNYSE()) {
   if(is.null(names(x))) 
@@ -430,5 +451,6 @@ unpack_image<-function(img,pword="password"){
   res<-unserialize(brotli_decompress(p))
   c(res,list(packed_length=length(b),unpacked_length=as.integer(object.size(res))))
 }
+
 
 
