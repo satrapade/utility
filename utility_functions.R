@@ -490,3 +490,17 @@ ticker_class<-function(x){
   ticker_patterns
 }
                          
+                         
+#
+pair2pm<-function(o){
+  x<-NULL
+  if(is.character(o))x<-o
+  if(is.null(x)&!is.null(names(o)))x<-names(o)
+  if(is.null(x)&!is.null(colnames(o)))x<-colnames(o)
+  if(is.null(x))x<-as.character(o)
+  gsub("[0-9]{1,3}$","",x)
+}
+   
+
+                         
+                         
