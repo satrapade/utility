@@ -500,7 +500,24 @@ pair2pm<-function(o){
   if(is.null(x))x<-as.character(o)
   gsub("[0-9]{1,3}$","",x)
 }
-   
+
+#                         
+assign_color<-function(x,prefix="",col_scheme=rainbow,col_alpha=0.33){
+  items<-sort(unique(x))
+  col<-col_scheme(length(items),alpha=col_alpha)
+  res<-data.table(
+    item=x,
+    name=paste0(prefix,gsub("[\\.]+","",make.names(toupper(x)))),
+    r_color=col[match(x,items)]
+  )[,
+    c("latex_col","latex_col_def"):=list(
+      latex_col=stri_sub(gsub("^#","",r_color),1,6),
+      latex_col_def=paste0("\\definecolor{",name,"}{HTML}{",stri_sub(gsub("^#","",r_color),1,6),"}\n")
+    )
+  ]
+  res
+}
+                        
 
                          
                          
