@@ -29,7 +29,6 @@ force2grid<-function(
 }
 
 
-grid_plot<-function(data,show_grid=TRUE){
 grid_plot<-function(
   data,
   x=rep(1:ceiling(sqrt(n)),times=ceiling(sqrt(n)))[1:n],
