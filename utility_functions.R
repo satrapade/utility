@@ -69,6 +69,17 @@ replace_zero_with_last<-function(x,a=x!=0){
 }
 stopifnot(all(replace_zero_with_last(c(0,0,1,2,3,0,0,4,5,6,0,0))==c(1,1,1,2,3,3,3,4,5,6,6,6)))
 
+replace_blank_with_last<-function(x){
+  x_upper<-toupper(x)
+  x_edges<-c(
+    x_upper[1]!="",
+    head(x_upper,-1)!=tail(x_upper,-1) & nchar(tail(x_upper,-1))>0
+  )
+  x_all<-x_upper[x_edges]
+  x_i<-findInterval(seq_along(x_edges),which(x_edges))
+  x_all[pmax(x_i,1)]
+}
+
 #
 bin<-function(x,n=10)findInterval(x,quantile(x,seq(0,1,length.out=n+1)),rightmost.closed=TRUE)
 
