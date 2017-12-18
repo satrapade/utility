@@ -277,7 +277,7 @@ get_sheet_positions<-function(
     date=rep(attributes(r2)$date,nrow(r2)),
     sheet_row=rownames(r2),
     manager=toupper(r2[,"C"]),
-    pair=toupper(r2[r2[,"B"]!="","B"][findInterval(1:nrow(r2),which(r2[,"B"]!=""),all.inside = TRUE,rightmost.closed = TRUE)]),
+    pair=replace_blank_with_last(toupper(r2[,"B"])),
     direction=toupper(r2[,"D"]),
     ticker=gsub("INDEX$","Index",gsub("EQUITY$","Equity",toupper(r2[,"F"]))),
     units=scrub(as.integer(r2[,"I"])),
