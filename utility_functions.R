@@ -13,7 +13,9 @@ options(stringsAsFactors=FALSE)
 require(R.cache)
 require(digest)
 require(timeDate)
-
+require(brotli)
+require(base64enc)
+require(RSQLite)
 
 # fast data dump/pump functions, using binary little-endian connections
 fdump<-function(object,filename){
@@ -33,6 +35,34 @@ load_matrix<-function(fn,row_names=TRUE){
   rownames(m)<-x[[1]]
   return(m)
 }
+
+compress<-function(x){
+  if(all(x=="")&length(x)==1)return("")
+  x0<-serialize(object=x,connection=NULL,version=2)
+  x1<-brotli_compress(x0)
+  x2<-base64encode(x1)
+  x2
+}
+
+#
+decompress<-function(x){
+  if(x=="")return("")
+  x0<-base64decode(x)
+  x1<-brotli_decompress(x0)
+  x2<-unserialize(x1)
+  x2
+}
+
+#
+query<-function(statement,db=get("db",parent.frame())){
+  q<-dbSendQuery(conn=db,statement)
+  r<-dbFetch(q,n=-1)
+  dbClearResult(q)
+  r
+}
+
+
+
 
 # dMcast makes ugly colnames
 rename_colnames<-function(x,pattern,replacement){
