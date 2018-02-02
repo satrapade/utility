@@ -38,7 +38,7 @@ fpump<-function(filename){
 #     x + a
 #   }
 with_formals<-function(fun,form){
-  for(i in names(form)){
+  for(i in setdiff(names(form),"")){
     formals(fun)[[i]]<-form[[i]]
   }
   fun
