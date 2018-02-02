@@ -62,6 +62,11 @@ query<-function(statement,db=get("db",parent.frame())){
 }
 
 
+statement<-function(statement,db=get("db",parent.frame())){
+  q<-dbSendStatement(conn=db,statement)
+  dbClearResult(q)
+}
+
 
 
 # dMcast makes ugly colnames
