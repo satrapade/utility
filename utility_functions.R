@@ -44,6 +44,17 @@ with_formals<-function(fun,form){
   fun
 }
 
+# add stuff to data.table
+extend_table<-function(df,...){
+  new_stuff<-list(...)
+  max_stuff<-max(mapply(length,new_stuff))
+  resized_new_stuff<-mapply(rep,new_stuff,MoreArgs = list(length.out=max_stuff),SIMPLIFY=FALSE)
+  empty_new_list<-mapply(do.call,mapply(class,df),MoreArgs=list(args=list(max_stuff)),SIMPLIFY=FALSE)
+  populated_new_list<-modifyList(empty_new_list,resized_new_stuff)
+  new_df<-do.call(data.table,populated_new_list)
+  rbind(df,new_df)
+}
+
 
 #
 load_matrix<-function(fn,row_names=TRUE){
