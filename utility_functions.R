@@ -55,6 +55,15 @@ extend_table<-function(df,...){
   rbind(df,new_df)
 }
 
+expand_matrix_to_all_dates<-function(m){
+  structure(
+    as.matrix(m[rep(rownames(m),times=c(diff(as.Date(rownames(m))),1)),colnames(m)]),
+    dimnames=list(
+      make_date_range(rownames(m)[1],rownames(m)[nrow(m)]),
+      colnames(m)
+    )
+  )
+}
 
 #
 load_matrix<-function(fn,row_names=TRUE){
