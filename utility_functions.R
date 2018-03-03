@@ -55,16 +55,22 @@ extend_table<-function(df,...){
   rbind(df,new_df)
 }
 
-expand_matrix_to_all_dates<-function(m,populate=TRUE){
-  is_expanded_row<-matrix(
-    c(1,diff(rep(seq_along(rownames(m)),times=c(diff(as.Date(rownames(m))),1)))),
-    ncol=1
-  )[,rep(1,ncol(m))]
-  expanded_matrix<-as.matrix(m[rep(rownames(m),times=c(diff(as.Date(rownames(m))),1)),colnames(m)])
-  structure(
-    expanded_matrix*(is_expanded_row+populate*(1-is_expanded_row)),
-    dimnames=list(make_date_range(rownames(m)[1],rownames(m)[nrow(m)]),colnames(m))
-  )
+#
+expand_matrix_to_fit_dates<-function(
+  m,
+  roll=TRUE
+){
+  dates<-make_date_range(rownames(m)[1],rownames(m)[nrow(m)])
+  em<-matrix(0,nrow=length(dates),ncol=ncol(m),dimnames=list(dates,colnames(m)))
+  the_match<-match(rownames(m),dates)
+  if(!roll){
+    em[the_match,1:ncol(m)]<-m[1:nrow(m),1:ncol(m)]
+    return(em)
+  }
+  the_times<-c(diff(the_match),1)
+  ndx_source<-rep(seq_along(the_match),times=the_times)
+  em[seq_along(ndx_source),1:ncol(m)]<-m[ndx_source,1:ncol(m)]
+  em
 }
 
 #
