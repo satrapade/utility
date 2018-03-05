@@ -64,12 +64,12 @@ expand_matrix_to_fit_dates<-function(
   em<-matrix(0,nrow=length(dates),ncol=ncol(m),dimnames=list(dates,colnames(m)))
   the_match<-match(rownames(m),dates)
   if(!roll){
-    em[the_match,1:ncol(m)]<-m[1:nrow(m),1:ncol(m)]
+    em[the_match,1:ncol(m)]<-as.matrix(m)[1:nrow(m),1:ncol(m)]
     return(em)
   }
   the_times<-c(diff(the_match),1)
   ndx_source<-rep(seq_along(the_match),times=the_times)
-  em[seq_along(ndx_source),1:ncol(m)]<-m[ndx_source,1:ncol(m)]
+  em[seq_along(ndx_source),1:ncol(m)]<-as.matrix(m)[ndx_source,1:ncol(m)]
   em
 }
 
