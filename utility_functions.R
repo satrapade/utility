@@ -104,7 +104,7 @@ query<-function(statement,db=get("db",parent.frame())){
   q<-dbSendQuery(conn=db,statement)
   r<-dbFetch(q,n=-1)
   dbClearResult(q)
-  r
+  data.table(r)
 }
 
 
