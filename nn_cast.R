@@ -1,6 +1,7 @@
 #
 # cast data frame to matrix
 #
+require(data.table)
 
 scrub <- function(x, default = 0)
 {
@@ -9,10 +10,7 @@ scrub <- function(x, default = 0)
   return(x)
 }
 
-#
-# i_name, j_name, v_name
-# are either a column name or an expression on column names
-#
+
 NNcast<-function(
   data,
   i_name="date",
@@ -20,8 +18,7 @@ NNcast<-function(
   v_name="value",
   fun=sum,
   scrub_fun=function(x)scrub(x,default=0)
-)
-{
+){
   i_expr<-parse(text=as.character(i_name))
   j_expr<-parse(text=as.character(j_name))
   v_expr<-parse(text=as.character(v_name))
@@ -44,6 +41,12 @@ NNcast<-function(
 }
 
 
-
-
+stopifnot(all(
+  NNcast(
+    data.table(x=1:10,y=1:10,v=1:10,w=10:1),
+    i_name="sprintf('%08d', x)",
+    j_name="sprintf('%08d', y)",
+    v_name="v"
+  )==diag(1:10)
+))
 
