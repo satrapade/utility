@@ -3,13 +3,6 @@
 #
 require(data.table)
 
-scrub <- function(x, default = 0)
-{
-  if(length(x) == 0) return(default)
-  x[which(!is.finite(x))] <- default
-  return(x)
-}
-
 
 NNcast<-function(
   data,
@@ -17,7 +10,12 @@ NNcast<-function(
   j_name="id",
   v_name="value",
   fun=sum,
-  scrub_fun=function(x)scrub(x,default=0)
+  scrub_fun=function(x)scrub(x,default=0),
+  scrub=function(x, default = 0){
+    if(length(x) == 0) return(default)
+    x[which(!is.finite(x))] <- default
+    return(x)
+  }
 ){
   i_expr<-parse(text=as.character(i_name))
   j_expr<-parse(text=as.character(j_name))
@@ -39,6 +37,16 @@ NNcast<-function(
   res[cbind(i,j)[!is.na(df$x),]]<-df$x[!is.na(df$x)]
   scrub_fun(res)
 }
+
+
+stopifnot(all(
+  NNcast(
+    data.table(x=1:10,y=1:10,v=1:10,w=10:1),
+    i_name="sprintf('%08d', x)",
+    j_name="sprintf('%08d', y)",
+    v_name="v"
+  )==diag(1:10)
+))
 
 
 stopifnot(all(
