@@ -11,7 +11,7 @@ scrub <- function(x, default = 0)
 
 #
 # i_name, j_name, v_name
-# are either a column name or and expression on column names
+# are either a column name or an expression on column names
 #
 NNcast<-function(
   data,
