@@ -23,10 +23,13 @@ factor_collect_distribute<-function(
   if(is.null(dim(xform))){
     distribute<-xform[ndx]
   }else{
-    distribute<-xform[ndx]
+    distribute<-xform[,ndx]
   }
   return(distribute)
 }
 
-
+stopifnot(all(
+  factor_collect_distribute(matrix(1:100,ncol=10),rep(c(0,1),each=5),fun=identity)==
+  cbind((1:10)*5+100,(1:10)*5+350)[,rep(c(1,2),each=5)]
+))
 
