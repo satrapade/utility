@@ -43,4 +43,7 @@ make_query<-function(
   res1
 }
 
+stopifnot(make_query(x=1,y=2,query_string = "--R{x+y}--")=="3")
+stopifnot(make_query(query_string = "--R{if(!exists('product_id')) product_id<-'8' else product_id}--")=="8")
+
 
