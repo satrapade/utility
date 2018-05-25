@@ -8,6 +8,7 @@ require(digest)
 require(magick)
 require(pdftools)
 require(sodium)
+require(bitops)
 
 make_image<-function(code,size=256){
   fig <- image_graph(width=size, height=size, res = 96)
