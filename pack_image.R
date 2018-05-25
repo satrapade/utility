@@ -6,6 +6,7 @@ require(brotli)
 require(base64enc)
 require(digest)
 require(magick)
+require(pdftools)
 
 make_image<-function(code,size=256){
   fig <- image_graph(width=size, height=size, res = 96)
