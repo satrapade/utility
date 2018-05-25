@@ -1,5 +1,12 @@
 #
-# 
+# image_write(
+#    pack_image(
+#     image_read("dbk.png"),
+#     list(pdf=readBin("quest_performance_analysis.pdf","raw",n=file.size("quest_performance_analysis.pdf")))
+#    ),
+#    "dbk1.png"
+# )
+# writeBin(unpack_image(image_read("dbk1.png"))$data$pdf,"test1.pdf")
 #
 
 require(brotli)
