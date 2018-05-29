@@ -1,3 +1,11 @@
+#
+# evaluate an expression over columns in a list of matrices
+# and assemble the result into a matrix
+#
+# pair_pnl<-with_columns(expression({
+#  mv*c(tret[-length(tret)],0)  
+# }),mv=pair_mv,tret=pair_tret)
+#
 
 # add arguments with default values to function formals
 with_formals<-function(fun,form){
