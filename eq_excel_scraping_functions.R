@@ -39,6 +39,7 @@ make_date_range<-function(
 # pattern-matched ticker classification
 ticker_class<-function(x){
   
+  x<-gsub("[ ]{2,10}","",x)
   x_trim<-stri_trim(x)
   x_upper<-toupper(x_trim)
   x_lower<-tolower(x_trim)
@@ -279,7 +280,12 @@ get_sheet_positions<-function(
     manager=toupper(r2[,"C"]),
     pair=replace_blank_with_last(toupper(r2[,"B"])),
     direction=toupper(r2[,"D"]),
-    ticker=gsub("INDEX$","Index",gsub("EQUITY$","Equity",toupper(r2[,"F"]))),
+    ticker=local({
+      x0<-gsub("[ ]{2,10}"," ",r2[,"F"])
+      x1<-toupper(x0)
+      x2<-gsub("EQUITY$","Equity",x1)
+      gsub("INDEX$","Index",x2)
+    }),
     units=scrub(as.integer(r2[,"I"])),
     multiplier=scrub(as.integer(r2[,"H"])),
     quantity=scrub(as.integer(r2[,"H"]))*scrub(as.integer(r2[,"I"])),
@@ -340,7 +346,13 @@ get_sheet_unwinds<-function(
     manager=stri_trim(toupper(r2[,"B"])),
     pair=stri_trim(toupper(r2[,"A"])),
     direction=toupper(r2[,"C"]),
-    ticker=gsub("INDEX$","Index",gsub("EQUITY$","Equity",toupper(r2[,"E"]))),
+    ticker=local({
+      x0<-gsub("[ ]{2,10}"," ",r2[,"E"])
+      x1<-toupper(x0)
+      x2<-gsub("EQUITY$","Equity",x1)
+      gsub("INDEX$","Index",x2)
+      
+     }),
     units=scrub(as.integer(r2[,"H"])),
     multiplier=scrub(as.integer(r2[,"G"])),
     quantity=scrub(as.integer(r2[,"G"]))*scrub(as.integer(r2[,"H"])),
