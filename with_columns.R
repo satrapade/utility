@@ -22,4 +22,7 @@ with_columns<-function(expr,...,MoreArgs=NULL){
   res1
 }
 
+stopifnot(all(with_columns(expr=expression(x+y),x=matrix(1:100,ncol=10),y=diag(10))==matrix(1:100,ncol=10)+diag(10)))
+
+
 
