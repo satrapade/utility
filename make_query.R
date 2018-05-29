@@ -28,8 +28,8 @@ make_query<-function(
     eval(substitute(x),parent.frame())
     return("")
   }
-  R_regex<-"--R{[\\\\ \\n \\t \\r  \\* \\. \\$ \\[ \\] \\( \\) \\: <> \\, \\_ '!\"a-zA-Z0-9=\\-+/ ]*}--"
-  error_regex<-"--error{[\\\\ \\n \\t \\r  \\* \\. \\$ \\[ \\] \\( \\) \\: <> \\, \\_ '!\"a-zA-Z0-9=\\-+/ ]*}--"
+  R_regex<-"--R{[\\\\ \\n \\t \\r  \\* \\. \\$ \\[ \\] \\( \\) \\: <> \\, \\_ '!\"a-zA-Z0-9=\\-+/% ]*}--"
+  error_regex<-"--error{[\\\\ \\n \\t \\r  \\* \\. \\$ \\[ \\] \\( \\) \\: <> \\, \\_ '!\"a-zA-Z0-9=\\-+/% ]*}--"
   include_regex<-"--include{[a-zA-Z0-9\\.\\_]+}--"
   e<-list2env(list(...))
   eval_fun<-function(x){
