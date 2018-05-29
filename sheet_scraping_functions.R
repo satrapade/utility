@@ -353,7 +353,7 @@ get_sheet_positions<-function(
     pair=toupper(r2[r2[,"B"]!="","B"][findInterval(1:nrow(r2),which(r2[,"B"]!=""),all.inside = TRUE,rightmost.closed = TRUE)]),
     direction=toupper(r2[,"D"]),
     ticker=local({
-      x0<-gsub("[ ]{2,10}","",r2[,"F"])
+      x0<-gsub("[ ]{2,10}"," ",r2[,"F"])
       x1<-toupper(x0)
       x2<-gsub("EQUITY$","Equity",x1)
       gsub("INDEX$","Index",x2)
@@ -418,7 +418,13 @@ get_sheet_unwinds<-function(
     manager=stri_trim(toupper(r2[,"B"])),
     pair=stri_trim(toupper(r2[,"A"])),
     direction=toupper(r2[,"C"]),
-    ticker=gsub("INDEX$","Index",gsub("EQUITY$","Equity",toupper(r2[,"E"]))),
+    ticker=local({
+      x0<-gsub("[ ]{2,10}"," ",r2[,"E"])
+      x1<-toupper(x0)
+      x2<-gsub("EQUITY$","Equity",x1)
+      gsub("INDEX$","Index",x2)
+      
+     }),
     units=scrub(as.integer(r2[,"H"])),
     multiplier=scrub(as.integer(r2[,"G"])),
     quantity=scrub(as.integer(r2[,"G"]))*scrub(as.integer(r2[,"H"])),
