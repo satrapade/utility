@@ -1,4 +1,8 @@
 
+require(Rblpapi)
+require(Matrix)
+require(R.cache)
+
 make_date_range<-function(start, end)
 {
   from <- as.Date(start, format = "%Y-%m-%d")
@@ -12,7 +16,7 @@ populate_history_matrix <- function(tickers, field, start, end, overrides)
 {
   all.dates <- make_date_range(start, end)
   
-  res <- bdh(
+  res <- Rblpapi::bdh(
     tickers, 
     field, 
     as.Date(min(all.dates),format="%Y-%m-%d"), 
