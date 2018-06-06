@@ -16,7 +16,7 @@ with_formals<-function(fun,form){
 }
 
 # perform calculation on matrix columns
-with_columns<-function(expr,...,MoreArgs=NULL){
+with_columns<-function(expr,...,MoreArgs=NULL,ResultRowNames=NULL){
   mat<-list(...)
   n<-unique(mapply(ncol,mat))
   if(length(n)>1)stop("unequal column counts")
@@ -26,7 +26,7 @@ with_columns<-function(expr,...,MoreArgs=NULL){
   args<-c(list(FUN=the_fun,SIMPLIFY=FALSE,MoreArgs=MoreArgs),df)
   res0<-do.call(mapply,args)
   res1<-do.call(cbind,res0)
-  rownames(res1)<-rownames(mat[[1]])
+  rownames(res1)<-ResultRowNames
   res1
 }
 
